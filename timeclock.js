@@ -1,35 +1,34 @@
+var config = {
+  apiKey: "AIzaSyCor3jn1XIEVPGnWvF76usBd7hdxY1_QG4",
+  authDomain: "time-clock-eecd3.firebaseapp.com",
+  databaseURL: "https://time-clock-eecd3.firebaseio.com",
+  projectId: "time-clock-eecd3",
+  storageBucket: "time-clock-eecd3.appspot.com",
+  messagingSenderId: "444204466941"
+};
+firebase.initializeApp(config);
 
-  var config = {
-    apiKey: "AIzaSyCor3jn1XIEVPGnWvF76usBd7hdxY1_QG4",
-    authDomain: "time-clock-eecd3.firebaseapp.com",
-    databaseURL: "https://time-clock-eecd3.firebaseio.com",
-    projectId: "time-clock-eecd3",
-    storageBucket: "time-clock-eecd3.appspot.com",
-    messagingSenderId: "444204466941"
+var database = firebase.database();
+
+
+function createNewEmployee(name, role, startDate, monthlyRate) {
+  var employee = {
+    name: name,
+    role: role,
+    startDate: startDate,
+    monthlyRate: monthlyRate,
   };
-  firebase.initializeApp(config);
-
-
-function createNewEmployee (name, role, startDate, monthlyRate) {
-    var employee = {
-        name: name,
-        role: role,
-        startDate: startDate,
-        monthlyRate: monthlyRate,
-    };
-
-    var newEmployee = firebase.database().ref().child('employeeInfo').push(employee);
+    
+  database.ref().push(employee);
 }
+
 
 $("#submitBtn").click(function (event) {
   event.preventDefault();
-  var empName = $('emName');
-  var startD = $('startDate');
-  var role = $('role');
-  var rate = $('monthlyRate');
 
-  var emp = new createNewEmployee(empName,startD, role, rate);
-
-  
-  
+  var empName = $('#emName').val();
+  var startD = $('#startDate').val();
+  var role = $('#role').val();
+  var rate = $('#monthlyRate').val();
+  createNewEmployee(empName, startD, role, rate);
 })
