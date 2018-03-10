@@ -21,4 +21,15 @@ function createNewEmployee (name, role, startDate, monthlyRate) {
     var newEmployee = firebase.database().ref().child('employeeInfo').push(employee);
 }
 
-$("#submitBtn")
+$("#submitBtn").click(function (event) {
+  event.preventDefault();
+  var empName = $('emName');
+  var startD = $('startDate');
+  var role = $('role');
+  var rate = $('monthlyRate');
+
+  var emp = new createNewEmployee(empName,startD, role, rate);
+
+  
+  
+})
