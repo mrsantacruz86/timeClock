@@ -1,7 +1,4 @@
 
-//
-
-  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyCor3jn1XIEVPGnWvF76usBd7hdxY1_QG4",
     authDomain: "time-clock-eecd3.firebaseapp.com",
@@ -21,5 +18,5 @@ function createNewEmployee (name, role, startDate, monthlyRate) {
         monthlyRate: monthlyRate,
     };
 
-    var newEmployee = firebase.database().ref().child('employeeInfo').push.key;
+    var newEmployee = firebase.database().ref().child('employeeInfo').push(employee);
 }
