@@ -52,15 +52,7 @@ $(document).ready(function () {
     var monthsWorked = parseInt((curDate - start) * msToMonthFactor);
     var empBilled = (monthsWorked * rate).toFixed(2);
     var dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    // var $record = $('tr');
-    // var $cell = $('td');
-    // $record.attr('key', key);
-    // $cell.html(name).appendTo($record);
-    // $cell.html(role).appendTo($record);
-    // $cell.html(start).appendTo($record);
-    // $cell.html(monthsWorked).appendTo($record);
-    // $cell.html(rate).appendTo($record);
-    // $cell.html(monthsWorked * rate).appendTo($record);
+  
     $('#employeeData').append("<tr data='" + key + "'><td>" + name + "</td><td>" + role + "</td><td>" +
     start.toLocaleDateString('en-US', dateOptions) + "</td><td>" + monthsWorked + "</td><td>" + rate + "</td><td>$ " + empBilled + "</td></tr>");
   }, function (errorObject) {
