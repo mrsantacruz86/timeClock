@@ -22,36 +22,48 @@ function createNewEmployee(name, role, startDate, monthlyRate) {
   database.ref('people').push(employee);
 }
 
-function addRecordToTable(key, name, role, startDate, rate) {
-  var $record = $('tr');
-  var $cell = $('td');
-  $record.attr('key', key);
-  $cell.html(name).appendTo($record);
-  $cell.html(role).appendTo($record);
-  $cell.html(startDate).appendTo($record);
-  $cell.html(rate).appendTo($record);
-  $record.appendTo()
-}
-$(document).ready(function(){
+$("#submitBtn").click(function (event) {
+  event.preventDefault();
+  var empName = $('#emName').val();
+  var startD = $('#startDate').val();
+  var role = $('#role').val();
+  var rate = $('#monthlyRate').val();
+  createNewEmployee(empName, role, startD, rate);
+  $('#dataEntry input').val("");
+})
 
-
-  $("#submitBtn").click(function (event) {
-    event.preventDefault();
-    var empName = $('#emName').val();
-    var startD = $('#startDate').val();
-    var role = $('#role').val();
-    var rate = $('#monthlyRate').val();
-    $('#dataEntry input').val("");
-    createNewEmployee(empName, startD, role, rate);
-  })
-});
+$(document).ready(function () {
   
-var ref = database.ref('people');
-ref.on("child_added", function (snapshot) {
-  var k = snapshot.key;
-  
-  console.log(k + snapshot.val().name);
-  
-}, function (errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
+  database.ref('people').on("child_added", function (childSnapshot) {
+    var key = childSnapshot.key;
+    var name = childSnapshot.val().name;
+    var role = childSnapshot.val().role;
+    var start = new Date(childSnapshot.val().startDate);
+    var rate = childSnapshot.val().monthlyRate
+    
+    console.log(key);
+    console.log(name);
+    console.log(role);
+    console.log(start);
+    console.log(rate);
+    
+    var curDate = new Date();
+    var msToMonthFactor = 3.85802e-10;
+    var monthsWorked = parseInt((curDate - start) * msToMonthFactor);
+    var empBilled = (monthsWorked * rate).toFixed(2);
+    var dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    // var $record = $('tr');
+    // var $cell = $('td');
+    // $record.attr('key', key);
+    // $cell.html(name).appendTo($record);
+    // $cell.html(role).appendTo($record);
+    // $cell.html(start).appendTo($record);
+    // $cell.html(monthsWorked).appendTo($record);
+    // $cell.html(rate).appendTo($record);
+    // $cell.html(monthsWorked * rate).appendTo($record);
+    $('#employeeData').append("<tr data='" + key + "'><td>" + name + "</td><td>" + role + "</td><td>" +
+    start.toLocaleDateString('en-US', dateOptions) + "</td><td>" + monthsWorked + "</td><td>" + rate + "</td><td>$ " + empBilled + "</td></tr>");
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+});  
